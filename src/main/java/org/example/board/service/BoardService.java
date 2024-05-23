@@ -1,9 +1,9 @@
 package org.example.board.service;
 
 
+import lombok.RequiredArgsConstructor;
 import org.example.board.domain.Board;
 import org.example.board.repository.BoardRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,10 +14,9 @@ import java.time.LocalDateTime;
 
 
 @Service
+@RequiredArgsConstructor
 public class BoardService {
-
-    @Autowired
-    private BoardRepository boardRepository;
+    private final BoardRepository boardRepository;
 
     public Page<Board> findAll(Pageable pageable) {
         Pageable sortedByDescId = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
@@ -35,9 +34,17 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
-    public Board update(Board board) {
-        board.setUpdatedAt(LocalDateTime.now());
-        return boardRepository.save(board);
+    public Board update(Board board, String password) {
+        Board existingBoard = boardRepository.findById(board.getId()).orElse(null);
+        if (!existingBoard.getPassword().equals(password)) {
+            return null;
+        }
+        existingBoard.setName(board.getName());
+        existingBoard.setTitle(board.getTitle());
+        existingBoard.setContent(board.getContent());
+        existingBoard.setUpdatedAt(LocalDateTime.now());
+
+        return boardRepository.save(existingBoard);
     }
 
     public void deleteById(Long id) {
