@@ -32,6 +32,9 @@
         <th>수정일</th>
         <td th:text="${#temporals.format(board.updatedAt, 'yyyy/MM/dd HH:mm')}"></td>
     </tr>
+    <div th:if="${errorMessage != null}" class="error">
+        <p th:text="${errorMessage}">비밀번호가 다릅니다.</p>
+    </div>
 </table>
 <a th:href="@{/board/updateform(id=${board.id})}">수정</a>
 <a th:href="@{/board/deleteform(id=${board.id})}">삭제</a>
