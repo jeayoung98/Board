@@ -92,3 +92,12 @@ textarea {
 .submit-button:hover {
     background-color: #45a049;
 }
+.error {
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #f5eff0;
+    color: #ba091a;
+    font-size: 50px;
+    border: 1px solid #494748;
+    border-radius: 5px;
+}
