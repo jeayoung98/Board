@@ -45,7 +45,7 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
-    @GetMapping("/updateform/{id}")
+    @GetMapping("/updateform")
     public String updateForm(Model model, @RequestParam Long id) {
         model.addAttribute("friend", boardService.findById(id));
         return "board/updateform";
