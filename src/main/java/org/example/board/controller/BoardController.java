@@ -47,16 +47,29 @@ public class BoardController {
 
     @GetMapping("/updateform")
     public String updateForm(Model model, @RequestParam Long id) {
-        model.addAttribute("friend", boardService.findById(id));
+        model.addAttribute("board", boardService.findById(id));
+        System.out.println(model);
         return "board/updateform";
     }
 
     @PostMapping("/update")
     public String update(@ModelAttribute Board board, @RequestParam String password) {
         Board existingBoard = boardService.findById(board.getId());
-        boardService.save(existingBoard);
+
+        if (!existingBoard.getPassword().equals(password)) {
+            return "redirect:/board/view?id=" + board.getId();
+        }
+
+
+        existingBoard.setName(board.getName());
+        existingBoard.setTitle(board.getTitle());
+        existingBoard.setContent(board.getContent());
+
+        boardService.update(existingBoard);
+
         return "redirect:/board/view?id=" + board.getId();
     }
+
 
     @GetMapping("/deleteform")
     public String deleteForm(Model model, @RequestParam Long id) {
@@ -67,7 +80,7 @@ public class BoardController {
     @PostMapping("/delete")
     public String delete(@RequestParam Long id, @RequestParam String password) {
         Board board = boardService.findById(id);
-        if (board != null && board.getPassword().equals(password)) {
+        if (board.getPassword().equals(password)) {
             boardService.deleteById(id);
         }
         return "redirect:/board/list";
