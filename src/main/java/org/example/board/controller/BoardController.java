@@ -48,7 +48,6 @@ public class BoardController {
     @GetMapping("/updateform")
     public String updateForm(Model model, @RequestParam Long id) {
         model.addAttribute("board", boardService.findById(id));
-        System.out.println(model);
         return "board/updateform";
     }
 
@@ -59,8 +58,6 @@ public class BoardController {
         if (!existingBoard.getPassword().equals(password)) {
             return "redirect:/board/view?id=" + board.getId();
         }
-
-
         existingBoard.setName(board.getName());
         existingBoard.setTitle(board.getTitle());
         existingBoard.setContent(board.getContent());
