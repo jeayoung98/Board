@@ -30,6 +30,11 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
+    public Board update(Board board) {
+        board.setUpdatedAt(LocalDateTime.now());
+        return boardRepository.save(board);
+    }
+
     public void deleteById(Long id) {
         boardRepository.deleteById(id);
     }
