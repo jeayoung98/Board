@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 목록</title>
+    <link rel="stylesheet" th:href="@{/css/Board.css}">
+</head>
+<body>
+<h1>게시글 목록</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>등록일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="board : ${boards}">
+        <td th:text="${board.id}"></td>
+        <td><a th:href="@{/board/view(id=${board.id})}" th:text="${board.title}"></a></td>
+        <td th:text="${board.name}"></td>
+        <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd HH:mm')}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<div>
+    <span th:if="${currentPage > 0}">
+        <a th:href="@{/board/list(page=${currentPage - 1})}">Previous</a>
+    </span>
+    <span th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}">
+        <a th:href="@{/board/list(page=${pageNum})}" th:text="${pageNum + 1}"></a>
+    </span>
+    <span th:if="${currentPage < totalPages - 1}">
+        <a th:href="@{/board/list(page=${currentPage + 1})}">Next</a>
+    </span>
+</div>
+
+<a href="/board/writeform">글 쓰기</a>
+</body>
+</html>
