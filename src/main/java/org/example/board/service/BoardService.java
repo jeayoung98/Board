@@ -39,6 +39,7 @@ public class BoardService {
         if (!existingBoard.getPassword().equals(password)) {
             return null;
         }
+        board.setCreatedAt(existingBoard.getCreatedAt());
         board.setUpdatedAt(LocalDateTime.now());
 
         return boardRepository.save(board);
