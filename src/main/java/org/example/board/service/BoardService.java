@@ -39,12 +39,9 @@ public class BoardService {
         if (!existingBoard.getPassword().equals(password)) {
             return null;
         }
-        existingBoard.setName(board.getName());
-        existingBoard.setTitle(board.getTitle());
-        existingBoard.setContent(board.getContent());
-        existingBoard.setUpdatedAt(LocalDateTime.now());
+        board.setUpdatedAt(LocalDateTime.now());
 
-        return boardRepository.save(existingBoard);
+        return boardRepository.save(board);
     }
 
     public void deleteById(Long id) {
